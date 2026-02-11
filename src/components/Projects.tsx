@@ -1,22 +1,11 @@
 import './Projects.css';
 
+import { useSelector } from 'react-redux';
+import { selectProjects } from '../store/slices/projectsSlice';
+import './Projects.css';
+
 const Projects = () => {
-    const projects = [
-        {
-            title: "Finance Dashboard",
-            description: "Real-time analytics dashboard for a fintech startup.",
-            tags: ["UI/UX", "Dashboard", "Fintech"],
-            image: "finance-dashboard", // CSS class for placeholder
-            link: "#"
-        },
-        {
-            title: "E-Commerce Platform Redesign",
-            description: "A complete overhaul of a fashion retailer's online store.",
-            tags: ["React", "Node.js", "E-commerce"],
-            image: "ecommerce-platform", // CSS class for placeholder
-            link: "#"
-        }
-    ];
+    const projects = useSelector(selectProjects);
 
     return (
         <section id="projects" className="projects">
@@ -30,8 +19,8 @@ const Projects = () => {
                 </div>
 
                 <div className="projects-grid">
-                    {projects.map((project, index) => (
-                        <div key={index} className="project-card">
+                    {projects.map((project) => (
+                        <div key={project.id} className="project-card">
                             <div className={`project-image ${project.image}`}></div>
                             <div className="project-content">
                                 <div className="project-tags">

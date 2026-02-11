@@ -1,24 +1,11 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectTestimonials, addTestimonial, type Testimonial } from '../store/slices/testimonialsSlice';
 import './Testimonials.css';
 
-interface Testimonial {
-    id: number;
-    text: string;
-    author: string;
-    company: string;
-    rating: number;
-}
-
 const Testimonials = () => {
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([
-        {
-            id: 1,
-            text: "The improved UI/UX has significantly increased our conversion rates. Highly recommended!",
-            author: "John Doe",
-            company: "CEO, TechStart",
-            rating: 5
-        }
-    ]);
+    const testimonials = useSelector(selectTestimonials);
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         author: '',
@@ -45,7 +32,8 @@ const Testimonials = () => {
             rating: Number(formData.rating)
         };
 
-        setTestimonials(prev => [...prev, newTestimonial]);
+        dispatch(addTestimonial(newTestimonial));
+
         setFormData({
             author: '',
             company: '',

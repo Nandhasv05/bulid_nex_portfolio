@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
-import { FaCode, FaPaintBrush, FaBullhorn, FaPenNib, FaCamera, FaRobot, FaDatabase, FaMobileAlt } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { FaCode, FaPaintBrush, FaBullhorn, FaCamera, FaMobileAlt } from 'react-icons/fa';
 import './Categories.css';
+import { selectCategories } from '../store/slices/categoriesSlice';
 
-const categories = [
-    { icon: <FaCode />, name: "Development" },
-    { icon: <FaPaintBrush />, name: "Design" },
-    { icon: <FaBullhorn />, name: "Marketing" },
-    { icon: <FaCamera />, name: "Video & Audio" },
-    { icon: <FaMobileAlt />, name: "Mobile Apps" }
-];
+const iconMap: { [key: string]: React.ReactNode } = {
+    FaCode: <FaCode />,
+    FaPaintBrush: <FaPaintBrush />,
+    FaBullhorn: <FaBullhorn />,
+    FaCamera: <FaCamera />,
+    FaMobileAlt: <FaMobileAlt />
+};
 
 const container = {
     hidden: { opacity: 0 },
@@ -26,6 +28,8 @@ const item = {
 };
 
 const Categories = () => {
+    const categories = useSelector(selectCategories);
+
     return (
         <section className="categories" id="categories">
             <div className="container">
@@ -47,9 +51,9 @@ const Categories = () => {
                     viewport={{ once: true }}
                     className="categories-grid"
                 >
-                    {categories.map((cat, index) => (
-                        <motion.div variants={item} key={index} className="category-card">
-                            <div className="category-icon">{cat.icon}</div>
+                    {categories.map((cat) => (
+                        <motion.div variants={item} key={cat.id} className="category-card">
+                            <div className="category-icon">{iconMap[cat.iconName]}</div>
                             <h3 className="category-name">{cat.name}</h3>
                         </motion.div>
                     ))}
