@@ -1,68 +1,135 @@
 .services {
-    padding: 80px 0;
-    background-color: var(--bg-secondary);
-}
-
-.headers-container {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.section-subtitle {
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: -2rem auto 0;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.service-card {
     background: var(--bg-primary);
-    padding: 2.5rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    position: relative;
+    padding: 80px 0;
+    /* Reduced vertical padding */
+}
+
+.services-header {
+    margin-bottom: 3.5rem;
+    /* Reduced margin */
+}
+
+.services-grid-v2 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Single row of 4 columns */
+    gap: 1.25rem;
+}
+
+.service-card-v2 {
+    position: relative;
+    padding: 2rem 1.75rem;
+    /* Reduced padding for compact height */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: flex-start;
+    /* Align content to top */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    cursor: default;
+    min-height: 280px;
+    /* Consistent height */
 }
 
-.service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-    border-color: var(--brand-primary);
+.service-card-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-glow) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
 }
 
-.service-icon-wrapper {
-    width: 50px;
-    height: 50px;
-    background-color: #e0e7ff;
-    /* Light indigo bg */
-    border-radius: var(--radius-sm);
+.service-card-v2:hover .service-card-glow {
+    opacity: 0.15;
+}
+
+.service-icon-wrapper-v2 {
+    width: 52px;
+    /* Smaller icon wrapper */
+    height: 52px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--accent-primary);
     margin-bottom: 1.5rem;
-    color: var(--brand-primary);
+    transition: all 0.4s ease;
 }
 
-.service-icon {
+.service-card-v2:hover .service-icon-wrapper-v2 {
+    background: var(--accent-primary);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.service-icon-v2 {
     width: 24px;
     height: 24px;
 }
 
-.service-title {
-    font-size: 1.25rem;
+.service-title-v2 {
+    font-size: 1.4rem;
+    /* Slightly smaller title */
     margin-bottom: 1rem;
-    color: var(--text-primary);
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
 }
 
-.service-description {
-    color: var(--text-secondary);
+.service-description-v2 {
+    color: var(--text-dim);
     font-size: 0.95rem;
-    line-height: 1.6;
+    /* Compact description */
+    line-height: 1.5;
+}
+
+.card-arrow {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--text-dim);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.service-card-v2:hover .card-arrow {
+    opacity: 1;
+    transform: scale(1);
+    color: var(--accent-primary);
+}
+
+.service-card-v2:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-primary);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 1200px) {
+    .services-grid-v2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .services-grid-v2 {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card-v2 {
+        padding: 2rem 1.5rem;
+        min-height: auto;
+    }
+
+    .service-title-v2 {
+        font-size: 1.3rem;
+    }
 }

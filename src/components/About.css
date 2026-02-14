@@ -1,0 +1,126 @@
+.about {
+    position: relative;
+    overflow: hidden;
+}
+
+.about-header {
+    margin-bottom: 4rem;
+}
+
+.about-grid-v2 {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.about-main-card {
+    padding: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 32px;
+}
+
+.about-main-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%);
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.about-main-card h3 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-white);
+    line-height: 1.1;
+}
+
+.about-text {
+    color: var(--text-dim);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.about-text:last-child {
+    margin-bottom: 0;
+}
+
+.stats-container-v2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.stat-card {
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 24px;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-primary);
+    box-shadow: 0 10px 30px -10px var(--accent-glow);
+}
+
+.stat-card.highlight {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0.6) 100%);
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+    .about-grid-v2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .stats-container-v2 {
+        grid-template-columns: 1fr;
+    }
+
+    .about-main-card {
+        padding: 2.5rem;
+    }
+
+    .about-main-card h3 {
+        font-size: 2rem;
+    }
+}

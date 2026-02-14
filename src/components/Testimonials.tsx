@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectTestimonials, addTestimonial, type Testimonial } from '../store/slices/testimonialsSlice';
 import './Testimonials.css';
 
-const Testimonials = () => {
+const Feedback = () => {
     const testimonials = useSelector(selectTestimonials);
     const dispatch = useDispatch();
 
@@ -43,98 +43,108 @@ const Testimonials = () => {
     };
 
     return (
-        <section className="testimonials">
+        <section id="feedback" className="feedback">
             <div className="container">
-                <h2 className="section-title">Client Testimonials</h2>
+                <div className="text-center">
+                    <span className="section-tag">Wall of Love</span>
+                    <h2 className="section-title">Client Feedback</h2>
+                </div>
 
-                <div className="testimonials-grid">
+                <div className="feedback-grid">
                     {testimonials.map((testimonial) => (
-                        <div key={testimonial.id} className="testimonial-card">
-                            <div className="rating-stars">
-                                {'★'.repeat(testimonial.rating)}{'☆'.repeat(5 - testimonial.rating)}
-                            </div>
-                            <p className="testimonial-text">"{testimonial.text}"</p>
-                            <div className="testimonial-author">
-                                <div className="author-avatar">
+                        <div key={testimonial.id} className="feedback-card glass-card">
+                            <div className="feedback-header">
+                                <div className="feedback-avatar">
                                     {testimonial.author.charAt(0)}
                                 </div>
-                                <div>
+                                <div className="feedback-meta">
                                     <h4>{testimonial.author}</h4>
                                     <span>{testimonial.company}</span>
                                 </div>
+                            </div>
+                            <p className="feedback-text">"{testimonial.text}"</p>
+                            <div className="feedback-rating">
+                                {'★'.repeat(testimonial.rating)}{'☆'.repeat(5 - testimonial.rating)}
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="testimonial-form-wrapper">
-                    <h3 className="form-title">Share Your Experience</h3>
-                    <form className="testimonial-form" onSubmit={handleSubmit}>
-                        <div className="form-row">
+                <div className="feedback-form-card glass-card animate-up">
+                    <div className="feedback-form">
+                        <h3 className="gradient-text">Share Your Experience</h3>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label htmlFor="author">Your Name</label>
+                                    <input
+                                        type="text"
+                                        id="author"
+                                        name="author"
+                                        className="form-input"
+                                        placeholder="Full Name"
+                                        value={formData.author}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="company">Position / Company</label>
+                                    <input
+                                        type="text"
+                                        id="company"
+                                        name="company"
+                                        className="form-input"
+                                        placeholder="Product Manager @ Corp"
+                                        value={formData.company}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label htmlFor="rating">Rating</label>
+                                    <select
+                                        id="rating"
+                                        name="rating"
+                                        value={formData.rating}
+                                        onChange={handleInputChange}
+                                        className="form-input"
+                                    >
+                                        <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+                                        <option value="4">⭐⭐⭐⭐ (Great)</option>
+                                        <option value="3">⭐⭐⭐ (Good)</option>
+                                        <option value="2">⭐⭐ (Average)</option>
+                                        <option value="1">⭐ (Poor)</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div className="form-group">
-                                <label htmlFor="author">Name</label>
-                                <input
-                                    type="text"
-                                    id="author"
-                                    name="author"
-                                    placeholder="Your Name"
-                                    value={formData.author}
+                                <label htmlFor="text">Your Testimony</label>
+                                <textarea
+                                    id="text"
+                                    name="text"
+                                    className="form-input"
+                                    rows={4}
+                                    placeholder="Tell others what it's like to work with me..."
+                                    value={formData.text}
                                     onChange={handleInputChange}
                                     required
-                                />
+                                ></textarea>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="company">Company</label>
-                                <input
-                                    type="text"
-                                    id="company"
-                                    name="company"
-                                    placeholder="Company Name"
-                                    value={formData.company}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                        </div>
 
-                        <div className="form-group">
-                            <label htmlFor="rating">Rating</label>
-                            <select
-                                id="rating"
-                                name="rating"
-                                value={formData.rating}
-                                onChange={handleInputChange}
-                                className="rating-select"
-                            >
-                                <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
-                                <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
-                                <option value="3">⭐⭐⭐ (3 Stars)</option>
-                                <option value="2">⭐⭐ (2 Stars)</option>
-                                <option value="1">⭐ (1 Star)</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="text">Review</label>
-                            <textarea
-                                id="text"
-                                name="text"
-                                rows={3}
-                                placeholder="Your feedback..."
-                                value={formData.text}
-                                onChange={handleInputChange}
-                                required
-                            ></textarea>
-                        </div>
-
-                        <button type="submit" className="btn btn-primary submit-btn">
-                            Submit Review
-                        </button>
-                    </form>
+                            <button type="submit" className="btn btn-primary submit-full">
+                                Post Feedback
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
     );
 };
 
-export default Testimonials;
+export default Feedback;

@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import './Contact.css';
+import devImage from '../assets/devloperCarttomimage.png';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
+        phone: '',
         email: '',
-        message: ''
+        projectDetails: ''
     });
+    const { ref, isVisible } = useScrollReveal(0.1);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
@@ -16,83 +20,132 @@ const Contact = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const { name, email, message } = formData;
-        const subject = `Contact form submission from ${name}`;
-        const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-        window.location.href = `mailto:nandhakumarsv2002@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        const formDataToSubmit = {
+            access_key: "ae2a70f8-7c4a-4aab-bf8d-4ac95cf560da",
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            message: formData.projectDetails,
+            subject: "New Inquiry from Portfolio"
+        };
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(formDataToSubmit)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("🚀 Message sent successfully!");
+                setFormData({
+                    name: '',
+                    phone: '',
+                    email: '',
+                    projectDetails: ''
+                });
+            } else {
+                throw new Error(result.message || "Failed to send message");
+            }
+        } catch (error) {
+            console.error("Web3Forms Error:", error);
+            alert("Failed to send message. Please try again later.");
+        }
     };
 
     return (
-        <section id="contact" className="contact">
-            <div className="container contact-container">
-                <div className="contact-info">
-                    <h2 className="section-title text-left-align">Let's work together</h2>
-                    <p className="contact-desc">
-                        I'm currently available for freelance work. If you have a project that needs some creative touch, I'd love to hear about it.
-                    </p>
-
-                    <ul className="contact-services">
-                        <li><span className="check-icon">✓</span> Web Application Development</li>
-                        <li><span className="check-icon">✓</span> UI/UX Design & Prototyping</li>
-                        <li><span className="check-icon">✓</span> Performance Audits</li>
-                    </ul>
-
-                    <div className="email-badge">
-                        <span className="email-label">Email me directly</span>
-                        <a href="mailto:nandhakumarsv2002@gmail.com" className="email-address">nandhakumarsv2002@gmail.com</a>
+        <section id="contact" className="contact" ref={ref}>
+            <div className="container">
+                <div className="contact-main-grid">
+                    {/* Left Side: AI Image */}
+                    <div className={`contact-image-side reveal-hidden ${isVisible ? 'reveal-visible reveal-slide-left' : ''}`}>
+                        <div className="ai-image-container">
+                            <img src={devImage} alt="AI Developer" className="ai-contact-img" />
+                            <div className="image-overlay-glow"></div>
+                        </div>
+                        <div className="contact-text-content">
+                            <h2 className="gradient-text">Let's Build Something Exceptional</h2>
+                            <p className="contact-desc">
+                                Ready to transform your business? Reach out and let's start a conversation about your next big project.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <div className="contact-form-wrapper">
-                    <form className="contact-form" onSubmit={handleSubmit}>
-                        <h3 className="form-title">Send me a message</h3>
+                    {/* Right Side: Contact Form */}
+                    <div className={`contact-form-side reveal-hidden ${isVisible ? 'reveal-visible reveal-slide-right' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                        <form className="glass-card contact-form-premium" onSubmit={handleSubmit}>
+                            <h3 className="form-title">Send a Message</h3>
 
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    placeholder="John Doe"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label htmlFor="name">Full Name</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        className="form-input"
+                                        placeholder="John Doe"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="phone">Phone Number</label>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        className="form-input"
+                                        placeholder="+91 00000 00000"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
                             </div>
+
                             <div className="form-group">
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">Email Address</label>
                                 <input
                                     type="email"
                                     id="email"
+                                    className="form-input"
                                     placeholder="john@example.com"
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
                                 />
                             </div>
-                        </div>
 
-                        <div className="form-group">
-                            <label htmlFor="message">Message</label>
-                            <textarea
-                                id="message"
-                                rows={4}
-                                placeholder="Tell me about your project..."
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
-                            ></textarea>
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="projectDetails">Project Details/Type</label>
+                                <textarea
+                                    id="projectDetails"
+                                    className="form-input"
+                                    rows={4}
+                                    placeholder="Briefly describe your project requirements..."
+                                    value={formData.projectDetails}
+                                    onChange={handleChange}
+                                    required
+                                ></textarea>
+                            </div>
 
-                        <button type="submit" className="btn btn-primary submit-btn">
-                            Send Message
-                            <svg className="send-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9-2-9-18-9 18 9-2zm0 0v-8" />
-                            </svg>
-                        </button>
-                    </form>
+                            <button type="submit" className="btn btn-primary submit-full-v2">
+                                Launch Inquiry
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
