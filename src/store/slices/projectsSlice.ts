@@ -6,6 +6,7 @@ import bulidnexdevLogo from '../../assets/Admin Panel.png';
 import srsLogo from '../../assets/Srs Project.png';
 import keralaSchoolLogo from '../../assets/SchoolProject.png'; // Placeholder image
 
+// TYPE CHANGE: Define Project interface and ProjectsState
 export interface Project {
     id: string;
     title: string;
@@ -24,7 +25,6 @@ const loadProjectsFromStorage = (): Project[] => {
     if (stored) {
         return JSON.parse(stored);
     }
-    // Default initial projects
     return [
         {
             id: 'waas-photography',

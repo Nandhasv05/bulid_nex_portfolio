@@ -9,6 +9,7 @@ const Projects = () => {
     const [activeCategory, setActiveCategory] = useState('All');
     const { ref, isVisible } = useScrollReveal(0.1);
 
+    // REF CHANGE: Add "All" category for filtering
     const categories = ['All', 'Website', 'Web Application', 'Mobile Application'];
 
     const filteredProjects = activeCategory === 'All'

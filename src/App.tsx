@@ -11,7 +11,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate initial site load or refresh
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
